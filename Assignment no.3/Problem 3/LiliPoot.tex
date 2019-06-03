@@ -1,0 +1,145 @@
+\documentclass[11pt]{letter}
+\usepackage{fancyvrb}
+\usepackage{amsmath}
+\usepackage{xepersian}
+\settextfont{B Roya}
+\renewcommand{\baselinestretch}{1.3} 
+	\addtolength{\oddsidemargin}{-.875in}
+\addtolength{\evensidemargin}{-.875in}
+\addtolength{\textwidth}{1.75in}
+
+\addtolength{\topmargin}{-.875in}
+\addtolength{\textheight}{1.75in}
+\begin{document}
+	\begin{center}
+		{\huge جاده‌کشی در لی‌لی‌پوت}\\
+		{ پویا آقاحسینی ۹۵۱۳۰۰۶}
+	\end{center}
+	\begin{RTL}
+ابتدا میخواهیم گزاره اول را بررسی کنیم:\\
+فرض میکنیم مسیر جهت دار وجود دارد و فرض خلف میکنیم که جاده بد یا همان یال برشی در گراف موجود است. در صورتی که یال برشی موجود باشد دو سر آن یال رئوس 
+\lr{$u,v$}
+را در نظر میگیریم که با حذف یال این دو راس(شهر) از هم غیر قابل دسترس میشوند، بین این دو راس تنها یک مسیر وجود دارد که از یال برشی میگذرد، حال اگر این یال برشی را جهت دهی کنیم ، تنها از یکی به دیگری میتوان رفت و بین این دو راس تنها یک مسیر از یکی به دیگری وجود دارد که با فرض در تناقض است. \\
+حال برای برگشت آن فرض میکنیم جاده بد یا یال برشی ای نداریم، باید با کمک استقرا ثابت کنیم که میتوان گرافی ساخت که از هر راسی به بقیه مسیر باشد:\\
+ابتدا برای پایه استقرا که یک راس باشد حکم برقرار است و از یک راس به خودش میتوان رفت.
+فرض میکنیم حکم برای 
+\lr{$k-1$}
+راس برقرار است و برای هر راس دلخواهی به راس دیگری مسیر وجود دارد، حال راس جدید
+\lr{$V_{k}$}
+را اضافه میکنیم، برای اینکه از
+\lr{$V_{k}$}
+به هر راسی مسیر باشد یک یال و برعکس از هر راسی به 
+\lr{$V_{k}$}
+مسیر وجود داشته باشد یک یال دیگر احتیاج داریم که دو یال از 
+\lr{$V_{k}$}
+به گرافی که در فرض داشتیم متصل میکنیم. \\
+افزایش این دو یال به این صورت است که از
+\lr{$V_{k}$}
+به راس دلخواه 
+\lr{$u$}
+در گراف یالی جهت دار وصل میکنیم و چون طبق از 
+\lr{$u$}
+به همه رئوس مسیر داشتیم حال از 
+\lr{$V_{k}$}
+نیز از طریق 
+\lr{$u$}
+مسیر داریم.
+سپس از راس دلخواه 
+\lr{$u'$}
+در گراف یالی جهت دار به
+\lr{$V_{k}$}
+وصل میکنیم و چون طبق فرض از هر راسی به 
+\lr{$u'$}
+مسیر وجود داشت و حال از 
+\lr{$u'$}
+نیز به
+\lr{$V_{k}$}
+مسیر داریم، از هر راسی از طریق
+\lr{$u'$}
+به 
+\lr{$V_{k}$}
+مسیر داریم.
+چون گراف ساده است، 
+\lr{$u\neq u'$}
+است.\\
+اگر با حذف راس سه یال حذف شود،یعنی سه یال داشته باشد، بين هر دو راس حداقل سه مسير مجزا وجود دارد كه حداكثر يكى از ان ها از راس حذف شده ميگذرد پس گراف حاصل از حذف راس 
+\lr{$V_{k}$}
+همبند است و 
+\lr{$V_{k}$}
+دو یال دیگر برای جهت دهی دارد
+و طبق فرض استقرا ميتوان آن را جهت دار كرد.
+
+
+گزاره اول اثبات شد، حال الگوریتم به این صورت است که در انتها یک 
+\lr{SCC}
+جهت‌دار از گراف باقی می‌ماند و همانطور که برای یافتن 
+\lr{SCC}
+از
+\lr{DFS}
+استفاده می‌کردیم، در این الگوریتم نیز از
+\lr{DFS}
+استفاده میکنیم با این تفاوت که در هر مرحله چک میکنیم که حتما
+\lr{Back Edge}
+داشته باشیم چون در غیر این صورت یال برشی داریم چون پس از جهت‌دهی دیگر از یکی به دیگری مسیر نداریم. اثبات به این گونه است که یال
+\lr{$(v,w)$}
+در صورتی برشی است که از زیردرخت راس
+\lr{$w$}
+به خود 
+\lr{$v$}
+یا راس های بالاتر آن یال نباشد.\\
+پس از چک کردن یال برشی با یک
+\lr{DFS}
+گراف را جهت دار و با 
+\lr{DFS}
+دیگری همبند بودن گراف را چک میکنیم، این مراحل میتواند در طی یک عملیات 
+\lr{DFS}
+نیز صورت پذیرد.
+سودوکد آن به شرح زیر است:
+				\end{RTL}
+			\begin{LTR}
+				\begin{Verbatim}[tabsize=0]
+				vertexno=0;
+				findcut(v): \\Same as DFS except we save the number of the earliest node reachable from v.
+				vertexno+=1
+				isvisited[v]=True
+				first[v]=vertexno
+				earliest[v] = vertexno 
+				for w in adj[v]: 
+				     if w was not visited: \\ recursively call the function 
+				         findcut(w)
+				         if earliest[w]<earliest[v]:\\if we have a back edge
+				             earliest[v]=earliest[w]
+				         \\ when going back, check for back edges:
+				         if earliest[w]>first[v]:
+				             return false
+				     elif w!=parent[v] (w was not v's parent) \\ which means we have seen the child sooner:
+				     earliest[v]  = min(earliest[v], vertexno[w]); 
+				return true
+				
+				\\ we checked for cut edges now we run a dfs and
+				\\ direct every edge meanwhile checking that the graph is connected:
+				direct(v):
+				    visited[v]=True
+				    for w in adj[v]:
+				        if visited[w] is False:
+				            directEdge(v,w) \\ we direct it be removing v from adj[w]
+				            direct(w)
+				\\right after the previous dfs we check connectivity:
+				for v in Graph:
+			         if visited[v] is False:
+			             return False
+			    return true        			
+				\end{Verbatim}
+			\end{LTR}
+			پیچیدگی زمانی : یک
+			\lr{DFS}
+			برای چک کردن یال برشی
+			\lr{$O(V+E)$}
+			زمان میبرد و دو
+			\lr{DFS}
+			برای جهت دار کردن گراف و چک کردن همبندی نیز 
+						\lr{$O(V+E)$}
+						، پس کل الگوریتم
+									\lr{$O(V+E)$}
+									زمان میبرد.
+\end{document}
